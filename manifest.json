@@ -1,0 +1,76 @@
+{
+  "manifest_version": 3,
+  "name": "MERCHALI for MOD",
+  "version": "1.2.0",
+  "description": "Your independent merch prompt studio. Analyze reference artwork, control original design variations, and create detailed English image prompts.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://*.media-amazon.com/*",
+    "https://*.ssl-images-amazon.com/*",
+    "https://i.etsystatic.com/*",
+    "https://i.pinimg.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "MERCHALI for MOD",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "incognito": "spanning",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.com/*",
+        "https://www.amazon.co.uk/*",
+        "https://www.amazon.de/*",
+        "https://www.amazon.fr/*",
+        "https://www.amazon.it/*",
+        "https://www.amazon.es/*",
+        "https://www.amazon.ca/*",
+        "https://www.amazon.co.jp/*",
+        "https://*.etsy.com/*",
+        "https://*.pinterest.com/*"
+      ],
+      "js": [
+        "content.js",
+        "floating-overlay.js"
+      ]
+    }
+  ],
+  "minimum_chrome_version": "116",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "panel.html"
+      ],
+      "matches": [
+        "https://www.amazon.com/*",
+        "https://www.amazon.co.uk/*",
+        "https://www.amazon.de/*",
+        "https://www.amazon.fr/*",
+        "https://www.amazon.it/*",
+        "https://www.amazon.es/*",
+        "https://www.amazon.ca/*",
+        "https://www.amazon.co.jp/*",
+        "https://*.etsy.com/*",
+        "https://*.pinterest.com/*"
+      ]
+    }
+  ]
+}

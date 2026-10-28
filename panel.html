@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>MERCHALI for MOD — Prompt Studio</title>
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="panel.css" />
+  <link rel="stylesheet" href="popup.css" />
+  <link rel="stylesheet" href="sidepanel.css" />
+  <link rel="stylesheet" href="floating.css" />
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#" aria-label="MERCHALI for MOD home">
+        <img class="logo" src="icons/logo.svg" alt="" width="42" height="42" />
+        <div class="wordmark"><span class="brand-overline">AI PROMPT STUDIO <span id="brandVersion" class="brand-version" data-app-version>v1.2.0</span></span><span class="name">MERCHALI <small>for MOD</small></span></div>
+      </a>
+      <div class="top-actions">
+        <button id="btnConnection" class="connection" title="AI connection settings"><i></i><span id="providerStatus">Connect AI</span></button>
+        <button id="btnOpenWeb" class="btn sm" type="button" title="Open studio as a full browser tab">Open as page ↗</button>
+        <button id="btnTheme" class="icon" title="Switch to light theme" aria-label="Switch to light theme"></button>
+        <button id="btnResetQuick" class="btn sm reset-quick" type="button" title="Reset Extension">Reset</button>
+        <button id="btnSettings" class="icon" title="Settings" aria-label="Settings" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 3-.7 2.2-2 .9-2.2-.5-2 3.4 1.5 1.7v2.6L2.6 15l2 3.4 2.2-.5 2 .9.7 2.2h4.1l.7-2.2 2-.9 2.2.5 2-3.4-1.5-1.7v-2.6L20.5 9l-2-3.4-2.2.5-2-.9-.7-2.2Z"/><circle cx="11.5" cy="12" r="3.1"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <nav class="steps" id="steps" aria-label="Studio steps">
+    <div class="steps-inner">
+      <button data-tab="source" class="active"><span>01</span>Create a concept</button>
+      <button data-tab="ideas"><span>02</span>Ideas &amp; prompts <b id="navIdeaCount" hidden>0</b></button>
+      <button data-tab="designs"><span>03</span>Designs</button>
+      <button data-tab="export"><span>04</span>Export</button>
+    </div>
+  </nav>
+  <main>
+    <p id="resizeTip" class="resize-tip" hidden dir="auto">↔ جرّ الحافة اليسرى باش تكبّر ولا تصغّر اللوحة.</p>
+    <section id="tab-source" class="tab active">
+      <header class="hero page-heading"><div class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 8 3 3-3 3m6 1h3"/></svg></div><div class="hero-copy"><h1>Design variations</h1><p>Load a reference, set your rules, and generate English image prompts.</p></div></header>
+      <div class="studio-layout">
+        <div class="studio-column">
+          <section class="studio-card reference-card">
+            <div class="card-heading"><div><h2>Your reference</h2></div><span id="sourceState" class="status-pill">Required</span></div>
+            <form id="asinForm" class="asin-import"><label for="asinInput">Load a shirt by ASIN</label><div class="asin-fields"><input id="asinInput" type="text" placeholder="B0… or Amazon product URL" maxlength="2048" autocomplete="off" spellcheck="false" aria-describedby="asinStatus" /><select id="asinMarket" aria-label="Amazon marketplace"><option value="com">Amazon US</option><option value="co.uk">Amazon UK</option><option value="de">Amazon DE</option><option value="fr">Amazon FR</option><option value="it">Amazon IT</option><option value="es">Amazon ES</option><option value="ca">Amazon CA</option><option value="co.jp">Amazon JP</option></select><button id="btnLoadAsin" class="btn primary" type="submit">Load design</button></div><p id="asinStatus" class="hint" role="status" aria-live="polite">Paste an ASIN to load the product image, then adjust the artwork focus.</p></form>
+            <div id="sourceEmpty" class="reference-empty"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="m26 14-16 8-7 18 16 6 6-12v34h30V34l6 12 16-6-7-18-16-8c-3 12-25 12-28 0Z"/><path d="m34 42 6-10 6 10-6 10Z"/></svg><strong>No reference selected.</strong><span>Load an ASIN or select a product image.</span></div>
+            <div id="sourceCard" class="source" hidden></div>
+            <div id="referenceFocus" class="reference-focus" hidden>
+              <p id="referenceHint" class="hint" role="status" aria-live="polite">Preparing the design focus…</p>
+              <details id="referenceAdjust" class="disclosure compact" hidden>
+                <summary>Adjust zoom &amp; position</summary>
+                <div class="reference-sliders">
+                  <div class="range-heading"><label for="refZoom">Design zoom</label><b id="refZoomVal" class="pill">1.0×</b></div>
+                  <input id="refZoom" type="range" min="1" max="6" step="0.01" value="1" />
+                  <label for="refX">Horizontal position</label><input id="refX" type="range" min="0" max="100" step="0.1" value="50" />
+                  <label for="refY">Vertical position</label><input id="refY" type="range" min="0" max="100" step="0.1" value="50" />
+                  <div class="row gap"><button id="btnRefAuto" class="btn sm" type="button">Auto focus</button><button id="btnRefFull" class="btn sm" type="button">Full product</button></div>
+                </div>
+              </details>
+            </div>
+            <div class="reference-actions"><button id="btnRead" class="btn primary"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M12 13v4m-2-2h4"/></svg>Read this page</button><button id="btnPick" class="btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v16l4-4 4 6 3-2-4-6h7Z"/></svg>Pick a design</button></div>
+            <p class="hint" id="pickHint" hidden>Click a design on the page. It appears here automatically. Press Esc to cancel.</p>
+            <button id="btnClearSource" class="text-button" hidden>Remove reference</button>
+            <details class="disclosure compact"><summary>Browsing tip</summary><p>Use an incognito window if you want to keep browsing separate from your recommendations. Enable <b>Allow in Incognito</b> in the extension's Chrome details.</p></details>
+          </section>
+          <section class="studio-card rules-card">
+            <div class="card-heading"><div><h2>Rules</h2></div><span class="small-label">Darija · عربي · Arabizi</span></div>
+            <p class="hint">3:4 portrait · filled shapes only, no strokes. Background, quality and composition follow your selected settings.</p><label for="rules" class="sr-only">Rules — بالدارجة المغربية</label><textarea id="rules" rows="5" dir="auto" placeholder="مثال: بدّل غير نوع القطط، وخليهم فنفس البلايص والوضعيات ونفس لباس وثيم Halloween. بلا كتابة."></textarea>
+            <p class="hint rules-language" dir="auto">كتب بالدارجة المغربية، بالعربية ولا باللاتيني وحتى مخلوطة بالفرنسية. مثال: <bdi>bdel ri5 naw3 dyal cats, khali nafs position w pose w theme. bla text.</bdi> الاقتراحات بالدارجة والـprompts بالإنجليزية.</p>
+            <details class="disclosure presets"><summary>Rules &amp; presets</summary><label>Saved preset<select id="presetSelect"><option value="">Choose preset</option></select></label><label>Preset name<input id="presetName" maxlength="80" /></label><div class="row gap wrap"><button id="btnSavePreset" class="btn sm" type="button">Save new</button><button id="btnLoadPreset" class="btn sm" type="button">Load</button><button id="btnRenamePreset" class="btn sm" type="button">Rename</button><button id="btnDeletePreset" class="btn sm" type="button">Delete</button><button id="btnDefaultPreset" class="btn sm" type="button">Set as default</button><button id="btnStandard" class="btn sm" type="button">Standard defaults</button></div><p id="presetStatus" class="hint" role="status"></p></details><label>Words to exclude<span class="label-note">Separate with commas</span><input id="banned" placeholder="Brands, names, slogans or other words to avoid" /></label>
+            <div class="safety-line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span>Originality &amp; content guardrails included</span></div>
+            <details class="disclosure"><summary>About originality, quality &amp; privacy</summary><p>Prompts use broad concepts and avoid protected names, logos, characters, slogans and copied layouts. Artwork stays visible and sharp, with your selected transparent or solid black background. AI checks do not verify all rights or guarantee Amazon acceptance. Review <a href="https://merch.amazon.com/resource/201858630" target="_blank" rel="noopener">Amazon's content policy</a> before publishing.</p><p>The suggestion step sends the framed reference shown in Your reference and the marketplace name to your AI provider. Prompt writing reuses a visual summary with each character's position, pose and costume. Listing titles and descriptions are excluded. Rules and suggestions use Moroccan Darija; generated, copied and downloaded image prompts use English, including print and background requirements. Requested printed wording keeps its own language.</p></details>
+          </section>
+          <div class="row gap wrap analysis-actions"><button id="btnAnalyze" class="btn sm" type="button">Analyze reference</button><button id="btnReanalyze" class="btn sm" type="button">Reanalyze</button></div><details id="referenceAnalysis" class="analysis-panel" hidden><summary>Reference analysis · observed details</summary><div id="analysisDetails"></div><div class="analysis-corrections"><label>Main subject<input id="analysisSubject" maxlength="1000" /></label><label>Original text · exact wording<textarea id="analysisText" rows="2" maxlength="1000"></textarea></label><label>Observed art style<input id="analysisStyle" maxlength="1000" /></label><label>Observed theme / niche<input id="analysisTheme" maxlength="1000" /></label><label>Audience<input id="analysisAudience" maxlength="1000" /></label><label>Occasion<input id="analysisOccasion" maxlength="1000" /></label><button id="btnApplyAnalysis" class="btn sm" type="button">Apply corrections</button></div><p class="hint">AI observations may be incomplete. Check the crop and use Rules to correct uncertain details.</p></details>
+          <details class="analysis-panel"><summary>Custom prompt template (optional)</summary><label>Additional instructions for writing prompts<textarea id="customTemplate" rows="4" maxlength="12000" placeholder="e.g. Describe the pose first, then palette and linework. Each prompt should stand alone." dir="auto"></textarea></label><p class="hint">Saved separately from built-in analysis and prompt templates. Your Rules describe the design; this template guides the writing. Built-in originality and output constraints still apply.</p></details>
+          <section class="print-card"><div class="print-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4v10l-8 4-8-4V7Z"/><path d="m4 7 8 5 8-5M12 12v9"/></svg><span>Design output</span><span class="mini-label">PROMPT TARGET</span></div><div class="print-specs"><div><strong id="qualitySummary">4K</strong><span>3:4 portrait</span></div><div><strong>Artwork only</strong><span>No product mockup</span></div><div><strong id="backgroundSummary">Transparent</strong><span id="backgroundCaption">Isolated artwork</span></div></div></section>
+        </div>
+        <div class="studio-column">
+          <section class="studio-card direction-card">
+            <div class="card-heading"><div><h2>Creative direction</h2></div></div>
+            <fieldset class="generation-mode"><legend>Generation Mode</legend><div class="mode-segments"><label><input type="radio" name="generationMode" value="artwork" checked />Change Artwork</label><label><input type="radio" name="generationMode" value="text" />Change Text</label><label><input type="radio" name="generationMode" value="both" />Change Both</label></div><p id="generationModeHint" class="hint"></p></fieldset>
+            <label>Variation mode<select id="variationMode"><option value="same_subject">Same subject variations</option><option value="breeds" selected>Same species · different breeds or types</option><option value="cross_species">Cross-species variations</option><option value="new_design">Same concept · new design</option></select></label>
+            <p id="modeHint" class="hint"></p>
+            <label>Composition preservation<select id="composition"><option value="strict">Strict</option><option value="balanced">Balanced</option><option value="creative">Creative</option></select></label>
+            <div class="grid2"><label>Number of designs<input id="count" type="number" min="1" max="20" value="10" /></label><label>Shirt fabric color<select id="shirt"></select></label></div>
+            <label id="shirtCustomField" hidden>Custom fabric color (#RRGGBB)<input id="shirtCustom" value="#808080" pattern="#[0-9a-fA-F]{6}" maxlength="7" spellcheck="false" /></label>
+            <label>Art Style<select id="style"></select></label><label id="customStyleField" hidden>Custom art style<input id="customStyle" maxlength="2000" /></label><label>Theme / Niche<select id="theme"></select></label><label id="customThemeField" hidden>Custom theme / niche<input id="customTheme" maxlength="2000" /></label><div class="grid2"><label>Occasion mode<select id="occasionMode"><option value="auto">Auto-Detect</option><option value="manual">Select Manually</option><option value="none">No Specific Occasion</option></select></label><label id="occasionField" hidden>Manual occasion<select id="occasion"></select></label></div><p id="occasionDetected" class="hint" role="status"></p>
+            <div class="grid2"><label>Image background<select id="outputBackground"><option value="transparent">Transparent</option><option value="black">Black</option><option value="white">White</option><option value="custom">Custom</option></select></label><label>Prompt Target Quality<select id="designQuality" aria-describedby="designQualityHint"><option value="1K">1K</option><option value="2K">2K</option><option value="4K">4K</option></select></label></div>
+            <label id="backgroundCustomField" hidden>Custom background color (#RRGGBB)<input id="backgroundCustom" value="#ffffff" pattern="#[0-9a-fA-F]{6}" maxlength="7" spellcheck="false" /></label>
+            <p class="hint" id="designQualityHint">3:4 portrait. Prompt targets only: this workflow writes text, not image files. Your image tool controls actual dimensions and alpha transparency. Target: 3072 × 4096 pixels, 300 DPI, RGB PNG for the 4K target.</p>
+            <label>Variation strength<select id="sim"><option value="20">Low</option><option value="45">Medium</option><option value="70">High</option></select></label><span id="simVal" hidden></span>
+            <p class="hint">Strength respects your subject mode, composition setting and explicit Rules. High never unlocks a Strict pose.</p>
+
+          </section>
+
+          <div class="generate-block"><button id="btnIdeas" class="btn primary generate">Suggest 10 variations</button><p>Select variations before generating prompts.</p></div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-ideas" class="tab">
+      <div class="results-heading"><div><h1 id="ideasHeading">Variation suggestions</h1><p id="ideasHint" class="hint">Select variations to generate image prompts.</p></div></div>
+      <div class="toolbar"><span id="ideaCount" class="muted"></span><div id="suggestionActions" class="row gap wrap"><button id="btnSelAll" class="btn sm">Select all / none</button><button id="btnGeneratePrompts" class="btn primary sm">Generate selected prompts</button></div><div id="promptActions" class="row gap wrap" hidden><button id="btnCopyPrompts" class="btn primary sm">Copy all prompts</button><button id="btnPromptsTxt" class="btn sm">Download .txt</button></div></div>
+      <div id="ideaList"></div><button id="btnToDesigns" class="btn back-button">Back to source</button>
+    </section>
+    <!-- 3. DESIGNS -->
+    <section id="tab-designs" class="tab">
+      <div class="field-label">Create the images with</div>
+      <div class="seg" id="provSeg">
+        <button data-v="api" class="on">This tool</button>
+        <button data-v="codex">ChatGPT / Codex</button>
+        <button data-v="flow">Flow AI</button>
+      </div>
+
+      <div id="prov-api" class="panel">
+        <div class="grid3">
+          <label>Quality
+            <select id="dQuality">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label>Shape
+            <select id="dSize">
+              <option value="1024x1536" selected>Portrait</option>
+              <option value="1024x1024">Square</option>
+              <option value="1536x1024">Landscape</option>
+            </select>
+          </label>
+          <label class="check tight"><input type="checkbox" id="dTransparent" checked disabled /> Transparent background (set in creative direction)</label>
+        </div>
+        <p class="hint" id="estimate"></p>
+        <div class="row gap">
+          <button id="btnGen" class="btn primary grow">Generate selected designs</button>
+          <button id="btnStop" class="btn" disabled>Stop</button>
+        </div>
+      </div>
+
+      <div id="prov-codex" class="panel" hidden>
+        <p>Paste your prompts into ChatGPT (or Codex), download the images it makes, then bring them back with <b>Import images</b> below.</p>
+        <label>Text added in front of every prompt
+          <input id="codexPrefix" value="صاوب رسم أصلي لتيشورت. " dir="auto" />
+        </label>
+        <button id="btnCopyCodex" class="btn primary wide">Copy numbered prompts</button>
+      </div>
+
+      <div id="prov-flow" class="panel" hidden>
+        <p>Download one prompt per line for Flow AI or a batch tool such as Batch Flow, run them there, then bring the images back with <b>Import images</b> below.</p>
+        <button id="btnTxtFlow" class="btn primary wide">Download prompts.txt</button>
+      </div>
+
+      <div class="row gap importrow">
+        <label class="btn">Import images
+          <input type="file" id="fileImport" multiple accept="image/*" hidden />
+        </label>
+        <span class="hint">PNG, JPG or WebP made elsewhere</span>
+      </div>
+
+      <div id="progress" class="progress" hidden>
+        <div class="bar"><i id="progBar"></i></div>
+        <div class="hint" id="progText"></div>
+      </div>
+
+      <div id="designGrid" class="dgrid"></div>
+
+      <button id="btnToExport" class="btn primary wide big">Continue to export &rarr;</button>
+    </section>
+
+    <!-- 4. EXPORT -->
+    <section id="tab-export" class="tab">
+      <div class="exportlayout">
+        <div class="previewbox">
+          <div id="prevBox" class="prevwrap">
+            <canvas id="prev"></canvas>
+            <div id="prevMsg" class="prevmsg">Select a design in step 3 to preview it here.</div>
+          </div>
+          <label>Preview on
+            <select id="prevBg"></select>
+          </label>
+        </div>
+
+        <div class="exportctl">
+          <label>Canvas size
+            <select id="preset">
+              <option value="3413x4096" selected>4K portrait &mdash; 3413 &times; 4096 px</option>
+              <option value="4096x4096">4K square &mdash; 4096 &times; 4096 px</option>
+            </select>
+          </label>
+
+          <label>Design width <b id="wVal" class="pill">100%</b>
+            <input id="wPct" type="range" min="40" max="100" value="100" />
+          </label>
+
+          <div class="grid2">
+            <label>Placement
+              <select id="place">
+                <option value="top" selected>Top centre</option>
+                <option value="center">Centre</option>
+              </select>
+            </label>
+            <label>Top margin (px)
+              <input id="mTop" type="number" min="0" max="1500" step="25" value="150" />
+            </label>
+          </div>
+
+          <label>Background
+            <select id="bgMode">
+              <option value="auto" selected>Auto-remove a solid background</option>
+              <option value="keep">Keep image as it is</option>
+            </select>
+          </label>
+          <label>Removal tolerance <b id="tolVal" class="pill">60</b>
+            <input id="tol" type="range" min="10" max="150" value="60" />
+          </label>
+
+          <label class="check"><input type="checkbox" id="trim" checked /> Trim empty margins before placing</label>
+          <p class="hint">Output: transparent PNG, 300 DPI. Smaller images are enlarged in smooth steps to fill the canvas.</p>
+
+          <div class="row gap">
+            <button id="btnExportSel" class="btn primary grow">Export selected (PNG)</button>
+            <button id="btnExportZip" class="btn grow">Export all (ZIP)</button>
+          </div>
+          <div class="hint" id="expStatus"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="app-footer"><span><i></i>MERCHALI for MOD</span><span>AI prompt studio. <b id="appVersion" data-app-version>v1.2.0</b></span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="overlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="sheet">
+      <div class="sheet-heading"><div class="sheet-brand"><img src="icons/logo.svg" width="34" height="34" alt="" /><span>YOUR STUDIO CONNECTION</span></div><button id="btnCloseSet" class="icon" title="Close settings" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+      <div class="connection-title"><div><h2 id="settingsTitle">Your AI connection</h2><p class="sheet-intro">Configure API access and model routing.</p></div><span id="connectionBadge" class="connection-badge"></span></div>
+      <section class="connection-section"><div class="connection-section-title"><span>01</span><h3>Provider &amp; access</h3></div>
+      <label>AI provider<select id="setProvider"><option value="openai">OpenAI</option><option value="anthropic">Anthropic Claude</option><option value="google">Google AI Studio · Gemini</option></select></label>
+      <label class="provider-field" data-provider="openai">OpenAI API key<input id="setKey" type="password" placeholder="sk-…" autocomplete="off" spellcheck="false" /></label>
+      <label class="provider-field" data-provider="anthropic">Anthropic API key<input id="setClaudeKey" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false" /></label>
+      <div class="provider-field" data-provider="google"><label>Google AI Studio API key<input id="setGoogleKey" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false" /></label><a class="key-link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get a key from Google AI Studio ↗</a></div>
+      </section>
+      <section class="connection-section"><div class="connection-section-title"><span>02</span><h3>Model routing</h3></div>
+      <label>Generation mode<select id="setStrategy"><option value="manual">Selected model</option><option value="fast">Fast · automatic model fallback</option></select></label>
+      <div id="fastConfig" class="fast-config" hidden><div class="fast-config-title"><span class="fast-dot"></span><strong>Fast · automatic fallback</strong><span class="fast-limit">60s max</span></div><p id="fastModelHint" class="hint"></p><p class="hint">Only your selected provider's key is used. Slow or failed attempts move to the next lightweight model. Invalid credentials stop the request.</p></div>
+      <div id="manualModelPicker" class="model-picker">
+        <label for="modelSearch">Find a model</label>
+        <div class="model-tools"><input id="modelSearch" type="search" placeholder="Search models…" autocomplete="off" /><button id="btnRefreshModels" class="btn sm" type="button">Refresh models</button></div>
+        <label for="setModel">Model</label>
+        <select id="setModel" aria-describedby="modelStatus"></select>
+        <label id="customModelField" hidden>Custom model ID<input id="setText" placeholder="Enter the exact model ID" spellcheck="false" autocomplete="off" /></label>
+        <p id="modelStatus" class="hint" role="status" aria-live="polite">Built-in catalog. Refresh to load models for your API key.</p>
+        <p class="model-help">Prompt models are selectable. Other API models are listed separately. Access and usage charges depend on your provider account.</p>
+      </div>
+      </section>
+      <div hidden><label>Image model<input id="setImage" /></label><label>Brand name<input id="setBrand" /></label></div>
+      <div class="settings-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg><p>Your key stays in Chrome's local extension storage. Requests go directly to your selected provider; their usage charges apply.</p></div>
+<div class="connection-save"><span class="hint">Applies to analysis and English prompts.</span><button id="btnSaveSet" class="btn primary">Save connection</button></div>
+      <section class="reset-area"><h3>Restore studio defaults</h3><p class="hint">One click restores prompt controls and clears custom Rules, excluded words and writing template. API keys, provider/model connections, references, results and named presets stay saved. The default preset selection is cleared.</p><button id="btnReset" class="btn" type="button">Reset Extension</button></section>
+    </div>
+  </div>
+</div>
+<button class="floating-corner corner-left" data-corner="left" type="button" aria-label="Resize from bottom-left corner" title="جرّ هاد القنّة باش تكبّر ولا تصغّر">↙</button>
+<button class="floating-corner corner-right" data-corner="right" type="button" aria-label="Resize from bottom-right corner" title="جرّ هاد القنّة باش تكبّر ولا تصغّر">↘</button>
+<script src="lib.js"></script>
+<script src="models.js"></script>
+<script src="fast-models.js"></script>
+<script src="text-api.js"></script>
+<script src="reference.js"></script>
+<script src="master-policy.js"></script>
+<script src="studio-intelligence.js"></script>
+<script src="generation-config.js"></script>
+<script src="panel.js"></script>
+<script src="floating.js"></script>
+</body>
+</html>

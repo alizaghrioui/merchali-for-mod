@@ -1,0 +1,22 @@
+/* Fill Chrome's resizable side-panel viewport, without a fixed popup size. */
+html[data-surface="sidepanel"], html[data-surface="sidepanel"] body { width: 100%; min-width: 0; min-height: 100vh; }
+html[data-surface="sidepanel"] { overflow-x: hidden; }
+html[data-surface="sidepanel"] .hero { display: none; }
+html[data-surface="sidepanel"] .top-inner { padding: 17px 20px; }
+html[data-surface="sidepanel"] .steps-inner { padding-inline: 20px; gap: 22px; }
+html[data-surface="sidepanel"] main { padding: 0 18px 40px; }
+html[data-surface="sidepanel"] .resize-tip { color: var(--muted); font-size: 11px; margin: 14px 0; }
+html[data-surface="sidepanel"] .studio-layout { max-width: none; }
+html[data-surface="sidepanel"] .reference-art { max-width: 280px; }
+@media (min-width: 720px) {
+  html[data-surface="sidepanel"] .studio-layout { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 18px; }
+}
+@media (max-width: 420px) {
+  html[data-surface="sidepanel"] .top-inner { padding: 14px; }
+  html[data-surface="sidepanel"] main { padding-inline: 12px; }
+  html[data-surface="sidepanel"] .steps-inner { padding-inline: 14px; gap: 16px; }
+}
+
+html[data-surface] .hero.page-heading { display:flex; padding:16px 0; margin-bottom:16px; }
+html[data-surface] .page-heading h1 { font-size:21px; }
+html[data-surface] .page-heading p { font-size:11px; }

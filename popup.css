@@ -1,0 +1,49 @@
+/* Compact toolbar dropdown. All content scrolls inside Chrome's popup. */
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) { width: 780px; height: 600px; overflow-x: hidden; overflow-y: auto; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) body { width: 100%; min-height: 600px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .app { min-height: 600px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .top { position: sticky; top: 0; z-index: 12; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .top-inner { height: 64px; padding: 12px 18px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .logo { width: 36px; height: 36px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .name { font-size: 17px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .steps { top: 64px; z-index: 11; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .steps-inner { padding-inline: 18px; gap: 28px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .steps button { min-height: 42px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) main { padding: 16px 16px 100px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .hero { display: none; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .studio-layout { max-width: none; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .studio-column { gap: 14px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .studio-card { padding: 15px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .card-heading { margin-bottom: 13px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) h2 { font-size: 16px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .eyebrow { font-size: 8px; letter-spacing: 1.2px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .reference-art { max-width: 210px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .reference-empty { min-height: 151px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .reference-empty svg { width: 44px; height: 44px; margin-bottom: 10px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .source h3 { -webkit-line-clamp: 2; font-size: 11px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .reference-actions { gap: 7px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .reference-actions .btn { font-size: 10px; padding: 9px 4px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) label, html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .field-label { font-size: 11px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) input, html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) select { min-height: 37px; margin-top: 6px; padding: 8px 10px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) input[type="range"] { min-height: 0; padding: 0; margin-top: 14px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) input[type="checkbox"] { min-height: 0; padding: 0; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .direction-card .grid2 { margin: 13px 0; gap: 10px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .direction-card > label + label { margin-top: 12px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .seg button { font-size: 10px; padding: 7px 3px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .range-heading { margin-top: 14px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .generate-block { padding: 9px 16px 10px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .generate-block .btn, html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .generate-block p { max-width: none; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .generate-block .btn { min-height: 42px; padding: 10px 15px; font-size: 12px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .app:has(#tab-source.active) .app-footer { padding-bottom: 90px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .app-footer { width: calc(100% - 32px); margin-inline: 16px; padding-top: 15px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .results-heading { margin: 3px 0 18px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .results-heading h1 { font-size: 25px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .results-mark { font-size: 40px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .toolbar { top: 106px; padding: 12px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .idea { padding: 15px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .overlay { padding: 12px; }
+html:is([data-surface="popup"], [data-surface="floating"], [data-surface="overlay"]) .sheet { max-height: 576px; padding: 24px; }
+
+html[data-surface] .hero.page-heading { display:flex; padding:16px 0; margin-bottom:16px; }
+html[data-surface] .page-heading h1 { font-size:21px; }
+html[data-surface] .page-heading p { font-size:11px; }
