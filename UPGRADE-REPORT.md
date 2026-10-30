@@ -102,3 +102,15 @@ User master prompt retained in MASTER-PROMPT.md and sent as mandatory guidance f
 
 ## v1.2.0
 See UPGRADE-v1.2.0.md for the complete advanced upgrade report. 53 automated tests passed; live browser/API verification remains pending.
+
+## v1.2.1
+See UPGRADE-v1.2.1.md. Replaced stale Claude model IDs with currently active Anthropic IDs. Verified one variation and the corresponding English prompt live in Chrome with `claude-haiku-4-5-20251001`; the request completed inside the 60-second cap.
+
+## v1.2.2
+See UPGRADE-v1.2.2.md. Variation suggestions now require Arabic script; English image prompts remain English. No tests run for this language-only update.
+
+## v1.2.3
+See UPGRADE-v1.2.3.md. Haiku 4.5 is now the default Claude model and Sonnet 4.6 is the Fast-mode fallback. Five-item live tests timed out on both Haiku and the previous Sonnet 5 fallback; the user's saved Claude key was not displayed. Automated tests run after the model update.
+
+## v1.2.4
+Fast mode now gives each model up to 30 seconds, while preserving the 60-second total generation limit. The live five-item test still timed out on Haiku 4.5 and Sonnet 4.6; no prompts were produced. Automated tests passed (54/54).

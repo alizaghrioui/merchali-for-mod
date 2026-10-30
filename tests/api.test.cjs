@@ -8,6 +8,12 @@ function apiFixture(settings, fetch, clocks={}){
  return context.MerchTextAPI.create(settings);
 }
 function json(body,status=200,headers={}){return new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json',...headers}});}
+test('Claude built-in and Fast routing use currently supported model IDs',()=>{
+ const context=vm.createContext({fetch,console,AbortController,AbortSignal,Response,TextEncoder,Uint8Array,URL,Date,setTimeout,clearTimeout});
+ vm.runInContext(source('models.js'),context);vm.runInContext(source('fast-models.js'),context);
+ assert.equal(context.MerchModels.catalog('anthropic').map(model=>model.id).join(','),'claude-haiku-4-5-20251001,claude-sonnet-4-6,claude-sonnet-5');
+ assert.equal(context.MerchFastModels.anthropic.join(','),'claude-haiku-4-5-20251001,claude-sonnet-4-6');
+});
 test('OpenAI analysis transmits reference to the existing text API and receives JSON',async()=>{
  let sent;const api=apiFixture({provider:'openai',apiKey:'fake-openai-key',textModel:'gpt-4o-mini'},async(url,options)=>{sent={url,options,body:JSON.parse(options.body)};return json({status:'completed',output:[{type:'message',content:[{type:'output_text',text:'{"reference":{},"ideas":[]}'}]}]});});
  const raw=await api.generate('Return JSON reference analysis','data:image/png;base64,fixture');assert.match(raw,/reference/);assert.match(sent.url,/responses/);assert.ok(sent.options.signal);assert.equal(sent.body.input[0].content[1].type,'input_image');assert.equal(sent.body.model,'gpt-4o-mini');
@@ -18,7 +24,7 @@ test('OpenAI Responses compatibility retry reuses the same deadline signal',asyn
  assert.equal(await api.generate('JSON prompts',''),' {"ideas":[]}'.trim());assert.equal(calls.length,2);assert.equal(calls[0].options.signal,calls[1].options.signal);assert.equal(calls[1].body.reasoning,undefined);
 });
 test('Anthropic uses the existing messages integration with inline reference',async()=>{
- let sent;const api=apiFixture({provider:'anthropic',claudeKey:'fake-claude-key',textModel:'claude-sonnet-5-5'},async(url,options)=>{sent={url,options,body:JSON.parse(options.body)};return json({content:[{type:'text',text:'{"ideas":[]}'}]});});
+ let sent;const api=apiFixture({provider:'anthropic',claudeKey:'fake-claude-key',textModel:'claude-sonnet-5'},async(url,options)=>{sent={url,options,body:JSON.parse(options.body)};return json({content:[{type:'text',text:'{"ideas":[]}'}]});});
  await api.generate('JSON analysis','data:image/png;base64,fixture');assert.match(sent.url,/anthropic.com\/v1\/messages/);assert.equal(sent.body.messages[0].content[0].source.type,'base64');assert.ok(sent.options.signal);
 });
 test('Gemini uses generateContent, inline reference, selected model and an abort signal',async()=>{
@@ -54,7 +60,7 @@ test('legacy chat models continue to use Chat Completions',async()=>{
  assert.equal(await api.generate('Return JSON','data:image/png;base64,fixture'),'{"ideas":[]}');assert.match(sent.url,/chat\/completions/);assert.equal(sent.body.messages[0].content[1].type,'image_url');
 });
 test('Anthropic empty and truncated output get actionable errors',async()=>{
- const settings={provider:'anthropic',claudeKey:'fake-key',textModel:'claude-sonnet-5-5'};
+ const settings={provider:'anthropic',claudeKey:'fake-key',textModel:'claude-sonnet-5'};
  await assert.rejects(apiFixture(settings,async()=>json({content:[]})).generate('JSON',''),/returned no text/);
  await assert.rejects(apiFixture(settings,async()=>json({stop_reason:'max_tokens',content:[{type:'text',text:'{"ideas":['}]})).generate('JSON',''),/fewer variations/);
 });

@@ -3,7 +3,7 @@
 globalThis.MerchTextAPI = (() => {
   function create(settings, defaults = {}) {
     const S = { settings: { ...settings }, geminiFallbackUsed: false };
-    const DEFAULTS = { textModel: "gpt-4o-mini", claudeTextModel: "claude-sonnet-5-5", geminiTextModel: "gemini-3.8-flash", ...defaults };
+    const DEFAULTS = { textModel: "gpt-4o-mini", claudeTextModel: "claude-haiku-4-5-20251001", geminiTextModel: "gemini-3.8-flash", ...defaults };
     const timeoutError = () => new Error("Generation stopped after 60 seconds. Try again or choose fewer variations.");
     const sleep = (ms, signal) => new Promise((resolve, reject) => {
       signal?.throwIfAborted();
@@ -64,7 +64,7 @@ globalThis.MerchTextAPI = (() => {
         const attempt = new AbortController();
         const parentAbort = () => attempt.abort(options.signal.reason);
         options.signal.addEventListener("abort", parentAbort, {once:true});
-        const budget = Math.min(24000, Math.max(1, Math.floor(remaining/(models.length-i))));
+        const budget = Math.min(30000, Math.max(1, Math.floor(remaining/(models.length-i))));
         let timer;
         const stopped = new Promise((_, reject) => {
           const abort = () => reject(attempt.signal.reason);

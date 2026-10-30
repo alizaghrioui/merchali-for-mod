@@ -1,0 +1,1 @@
+Claude model routing: live one-item variation and English prompt both completed in Chrome with claude-haiku-4-5-20251001.

@@ -62,6 +62,6 @@ Manifest V3 extension using plain JavaScript, HTML and CSS. No build step or npm
 node --test tests/*.test.cjs
 ```
 
-The v1.2.0 test run passed 53 automated tests using mocked provider/browser interactions. Live marketplace capture and provider inference require manual verification in Chrome.
+The v1.2.4 automated test run passed 54 tests. Claude was previously tested live in Chrome for one variation and its English image prompt with `claude-haiku-4-5-20251001`. A current five-item request timed out on Haiku 4.5 and Sonnet 4.6, so no prompts were produced. In v1.2.2, variation suggestions are written in Arabic script while generated image prompts remain in English. In v1.2.3, Claude Haiku 4.5 became the default latency-focused model and Sonnet 4.6 the Fast-mode fallback. In v1.2.4, Fast mode gives each model up to 30 seconds inside the existing 60-second total cap.
 
-See [the v1.2.0 upgrade report](UPGRADE-v1.2.0.md) for architecture changes, storage compatibility and limitations.
+See [the v1.2.4 upgrade report](UPGRADE-v1.2.4.md) for Fast-mode timeout behavior, [the v1.2.3 upgrade report](UPGRADE-v1.2.3.md) for Claude latency testing, [the v1.2.2 upgrade report](UPGRADE-v1.2.2.md) for the suggestion language behavior, [the v1.2.1 upgrade report](UPGRADE-v1.2.1.md) for earlier Claude model correction and verification details, and [the v1.2.0 upgrade report](UPGRADE-v1.2.0.md) for architecture changes, storage compatibility and limitations.
